@@ -1,0 +1,43 @@
+﻿<!DOCTYPE  HTML><html xmlns:th="http://www.thymeleaf.org">
+<HEAD><META content="IE=11.0000"
+http-equiv="X-UA-Compatible"> 
+<META http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+<TITLE>投票列表</TITLE> <LINK href="css/style.css" rel="stylesheet" type="text/css">
+<META name="GENERATOR" content="MSHTML 11.00.10586.420"></HEAD> 
+<BODY>
+<DIV class="wrap" id="header"><IMG src="images/logo.gif"> </DIV>
+<DIV class="wrap" id="navbar">
+    <DIV class="profile">您好，<span th:text="${session.user.username}">游客</span>
+		<SPAN class="return"><A href="http://localhost:8080/myVote/Subject-list.action">返回列表</A></SPAN>
+		 <SPAN class="addnew"><A th:href="@{registIm}">添加新投票</A></SPAN>
+		 <SPAN class="modify"><A href="http://localhost:8080/myVote/Subject-modify.action">维护</A></SPAN>
+		 <SPAN class="return"><A 
+href="http://localhost:8080/myVote/User-exit.action">注销</A></SPAN>	 </DIV>
+<DIV class="search">
+<FORM action="List" method="post">
+	<INPUT name="stitle" class="input-text" type="text"><INPUT name="submit" class="input-button" type="submit" value=""/>
+</FORM></DIV></DIV>
+<DIV class="wrap" id="vote" >
+<H2>投票列表</H2>
+<DIV style="float: right;"><A  href="http://localhost:8080/myVote/Vote-vote.action?entityId=21">首页</A>
+	|上一页</A>
+	|下一页</A>| 末页</A>
+	 </DIV><BR>
+<UL class="list" >
+
+  <LI class="odd" th:each="i:${itemList}">
+	  <A th:href="@{view(sid=${i.sid})}">
+  <H4 th:text="${i.stitle}">
+	  <span>哪个浏览器好用</span>
+  			 </H4></A>
+  <DIV class="join"><A th:href="@{joinItem}">我要参与</A></DIV>
+<P class="info">共有 <span th:text="${i.oct}">4</span>个选项，已有<span th:text="${i.ict}">1</span>个投票。</P></LI>
+
+</UL>
+	<DIV style="float: right;"><A th:href="@{List(pageIndex=1,stitle=${map.get('stitle')})}">首页</A>
+		|<A th:href="@{List(pageIndex=${pg.getPageNum()-1},stitle=${map.get('stitle')})}">上一页</A>
+		|<A th:href="@{List(pageIndex=${pg.getPageNum()+1},stitle=${map.get('stitle')})}">下一页</A>|
+		<A th:href="@{List(pageIndex=${pg.getPages()},stitle=${map.get('stitle')})}">末页</A>
+	</DIV>
+</DIV>
+<DIV class="wrap" id="footer">	北大青鸟 © 版权所有 </DIV></BODY></HTML>

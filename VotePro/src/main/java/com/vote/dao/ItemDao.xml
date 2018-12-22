@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vote.dao.ItemDao">
+    <sql id="con">
+       <where>
+          <if test="iuid!=null and iuid!=0">
+            and i.iuid=#{iuid}
+          </if>
+        <if test="stitle!=null and stitle!=''">
+            s.stitle like concat('%',#{stitle},'%')
+        </if>
+       </where>
+    </sql>
+    <select id="selectByCon" resultType="map">
+        SELECT  s.sid,s.stitle,s.stype,COUNT(DISTINCT o.oid) oct,COUNT(DISTINCT i.iuid) ict,
+        COUNT(DISTINCT i.iid) iict
+        FROM `subject` s
+        LEFT JOIN `option` o ON s.sid=o.osid
+        LEFT JOIN item i ON s.sid=i.isid
+        <include refid="con"></include>
+        GROUP BY s.sid,s.stitle
+    </select>
+
+    <select id="selectBySid" resultType="map">
+        SELECT s.sid,s.stitle,COUNT(DISTINCT o.oid) oct,COUNT(DISTINCT i.iuid) ict
+                 FROM toupiao.subject s
+                 LEFT JOIN toupiao.option o ON s.sid=o.osid
+                 LEFT JOIN toupiao.item i ON s.sid=i.isid
+                 where i.isid=#{isid}
+                 GROUP BY s.sid,s.stitle
+    </select>
+
+
+
+</mapper>

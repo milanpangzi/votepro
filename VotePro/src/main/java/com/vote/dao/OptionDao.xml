@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vote.dao.OptionDao">
+    <insert id="insertOp">
+        INSERT INTO `option`(`option`,`osid`)VALUES(#{option},#{osid});
+    </insert>
+
+    <select id="selectBySid" resultType="map">
+        SELECT o.oid,o.`option`,COUNT(DISTINCT i.iuid) ucount
+            FROM `option` o
+            LEFT JOIN item i ON i.ioid=o.oid
+            WHERE o.osid = #{osid}
+            GROUP BY o.oid,`option`
+    </select>
+</mapper>
